@@ -10,7 +10,7 @@ import java.util.Map;
 Подсчёт одинаковых слов в списке
 */
 
-public class Solution {
+public class count_similar_words {
     public static void main(String[] args) throws Exception {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
