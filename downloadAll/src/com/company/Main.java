@@ -56,7 +56,7 @@ class Act {
             deep = (long) jsonObject.get("deep");
             imageMinSize = (long) jsonObject.get("minSize") * 1048576; //количество байт в мб
             String str = (String) jsonObject.get("output");
-            outputFolder = str.endsWith("/") ? str.substring(0, str.length() - 1) : str;
+            outputFolder = !str.endsWith("/") ? str : str + "/";
 
             Pattern pattern = Pattern.compile("((http)(s?)(.){3}([a-zA-Z0-9-_.]+(\\/)?))");
             //выделяем базовый url для отсеивания других сайтов
@@ -184,7 +184,7 @@ class Act {
         //---------------- запись в файл-------------------
         try {
             ReadableByteChannel rbc = Channels.newChannel(url.openStream());
-            FileOutputStream fos = new FileOutputStream(outputFolder + "/" + imgNumber + ".jpeg");
+            FileOutputStream fos = new FileOutputStream(outputFolder + imgNumber + ".jpeg");
             System.out.println(imgNumber + " recorded");
             fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
             imgNumber++;
