@@ -29,6 +29,7 @@ class Act {
     private HashSet<String> hash = new HashSet<>();
     private String siteName = "";
     private String baseURL = "";
+    private String outputFolder = "";
     private boolean firstTime = true;
     private long imageMinSize = 1;
     private long deep = 0; //глубина
@@ -53,7 +54,9 @@ class Act {
 
             siteName = (String) jsonObject.get("url");
             deep = (long) jsonObject.get("deep");
-            imageMinSize = (long) jsonObject.get("minSize") *  1048576; //количество байт в мб
+            imageMinSize = (long) jsonObject.get("minSize") * 1048576; //количество байт в мб
+            String str = (String) jsonObject.get("output");
+            outputFolder = str.endsWith("/") ? str.substring(0, str.length() - 1) : str;
 
             Pattern pattern = Pattern.compile("((http)(s?)(.){3}([a-zA-Z0-9-_.]+(\\/)?))");
             //выделяем базовый url для отсеивания других сайтов
@@ -181,7 +184,7 @@ class Act {
         //---------------- запись в файл-------------------
         try {
             ReadableByteChannel rbc = Channels.newChannel(url.openStream());
-            FileOutputStream fos = new FileOutputStream("output/" + imgNumber + ".jpeg");
+            FileOutputStream fos = new FileOutputStream(outputFolder + "/" + imgNumber + ".jpeg");
             System.out.println(imgNumber + " recorded");
             fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
             imgNumber++;
@@ -196,7 +199,7 @@ public class Main {
 
     public static void main(String[] args) {
         // write your code here
-        Act a = new Act();
+        new Act();
 
     }
 
