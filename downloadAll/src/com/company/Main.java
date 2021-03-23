@@ -39,7 +39,7 @@ class Act {
     public Act() {
         try {
             init();
-            getHTML(siteName);
+//            getHTML(siteName);
         } catch (IOException | ParseException | RuntimeException e) {
             System.out.println("Look at the config!");
             e.printStackTrace();
@@ -56,7 +56,8 @@ class Act {
             deep = (long) jsonObject.get("deep");
             imageMinSize = (long) jsonObject.get("minSize") * 1048576; //количество байт в мб
             String str = (String) jsonObject.get("output");
-            outputFolder = !str.endsWith("/") ? str : str + "/";
+            outputFolder = str.endsWith("/") ? str : str + "/";
+            System.out.println(outputFolder);
 
             Pattern pattern = Pattern.compile("((http)(s?)(.){3}([a-zA-Z0-9-_.]+(\\/)?))");
             //выделяем базовый url для отсеивания других сайтов
