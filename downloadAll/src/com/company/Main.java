@@ -39,7 +39,7 @@ class Act {
     public Act() {
         try {
             init();
-//            getHTML(siteName);
+            getHTML(siteName);
         } catch (IOException | ParseException | RuntimeException e) {
             System.out.println("Look at the config!");
             e.printStackTrace();
