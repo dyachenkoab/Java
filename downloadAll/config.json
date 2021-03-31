@@ -1,7 +1,7 @@
 {
     "url": "https://www.goodfon.ru/",
     "output": "output/",
-    "deep": 1,
-    "minSize": 1
+    "deep": 2,
+    "minSize": 17000
 }
 

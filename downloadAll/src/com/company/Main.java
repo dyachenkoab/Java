@@ -21,6 +21,12 @@ import java.util.ListIterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/*
+* "Скачивание картинок с сайта. На входе - URL страницы.
+* Необходимо скачать все изображения на странице а также на всех дочерних страницах, на которые можно перейти по гиперссылкам. Скачивать изображения только > X КБ.
+* параметры приложения (URL, каталог для сохранения, размер X и др.) задавать в property-файле [+5 баллов]
+* */
+
 class Act {
     private Document doc;
     private Elements imageElems;
@@ -32,14 +38,15 @@ class Act {
     private String outputFolder = "";
     private boolean firstTime = true;
     private long imageMinSize = 1;
-    private long deep = 0; //глубина
+    private long deep = 1; //глубина
+    private long neededDeep = 0; //глубина
     private long imageCurrSize = 0;
     private int imgNumber = 0; //номер изображения
 
     public Act() {
         try {
             init();
-//            getHTML(siteName);
+            getHTML(siteName);
         } catch (IOException | ParseException | RuntimeException e) {
             System.out.println("Look at the config!");
             e.printStackTrace();
@@ -53,8 +60,8 @@ class Act {
             JSONObject jsonObject = (JSONObject) jsonParser.parse(reader);
 
             siteName = (String) jsonObject.get("url");
-            deep = (long) jsonObject.get("deep");
-            imageMinSize = (long) jsonObject.get("minSize") * 1048576; //количество байт в мб
+            neededDeep = (long) jsonObject.get("deep");
+            imageMinSize = (long) jsonObject.get("minSize");
             String str = (String) jsonObject.get("output");
             outputFolder = str.endsWith("/") ? str : str + "/";
             System.out.println(outputFolder);
@@ -91,7 +98,7 @@ class Act {
 
                 getImg(imgIter, doc);
 
-                if (deep < 2) {
+                if (deep < neededDeep) {
                     for (Element x : linksElems) {
                         System.out.println(x.attr("href") + " Link by attribute");
 
